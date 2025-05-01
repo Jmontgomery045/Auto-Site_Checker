@@ -1,0 +1,53 @@
+import os
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from dotenv import load_dotenv
+
+def test_failure(test, error):
+    print(test + ": Failure")
+    print(error)
+
+class Test01Login():
+    def setup_method(self, method):
+        self.driver = webdriver.Chrome()
+        self.vars = {}
+
+    def teardown_method(self, method):
+        self.driver.quit()
+
+    def test_01Login(self):
+        try:
+            print("Loading environment variables...")
+            load_dotenv()
+            print("Environment variables loaded.")
+
+            self.driver.get("https://www.betfred.com/")
+            self.driver.find_element(By.CSS_SELECTOR, ".wscrBannerContentInner .wscrOk").click()
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedOut.buttonLogin\"]").click()
+            self.driver.find_element(By.ID, "Login.username").send_keys(os.getenv("USER"))
+            self.driver.find_element(By.ID, "Login.password").send_keys(os.getenv("PASS"))
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Login.login\"]").click()
+
+            time.sleep(2)
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "div[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]")
+            if len(elements) > 0:
+                self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]").click()
+                self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"Core.MarketingPreferencesSplitByProduct.Button.Confirm\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]").click()
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.MenuItem.logout\"]")))
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.MenuItem.logout\"]")
+            assert len(elements) > 0
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"MyAccount.Header.close\"]").click()
+            return True
+        except Exception as e:
+            test_failure('Login', e)
+            print("Failed to log in.")
+            return False
+
