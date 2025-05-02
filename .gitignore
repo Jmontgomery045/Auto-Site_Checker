@@ -1,4 +1,2 @@
 .env
-Tests/__pycache__/bet_placement_test.cpython-313.pyc
-Tests/__pycache__/deposit_test.cpython-313.pyc
-Tests/__pycache__/login_test.cpython-313.pyc
+Tests/__pycache__
