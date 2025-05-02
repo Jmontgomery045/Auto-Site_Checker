@@ -8,9 +8,18 @@ PASS=[Password Here]
 ----
 # Usage Instructions:
 
-To use this software, simply ensure the .env file is present and filled in, then navigate into the main directory and run the below command.
+To install this software, we first need to open a command window and navigate to the main DS_Automation_Suite directory.
 
-`python main.py`
+Create a Virtual Environment:<br>
+<code>python -m venv venv</code><br>
+<code>source venv/bin/activate</code>   # On macOS/Linux<br>
+<code>venv\Scripts\activate</code>      # On Windows<br>
+
+Install the requirements:<br>
+<code>pip install -r requirements.txt</code>
+
+To run the scripts once installed:<br>
+<code>python main.py</code>
 
 ----
 
