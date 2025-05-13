@@ -10,7 +10,7 @@ def test_failure(test, error):
     print(test + ": Failure")
     print(error)
 
-class test_03BetPlacement():
+class test_04VirtualsBetPlacement():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -18,7 +18,7 @@ class test_03BetPlacement():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_03BetPlacement(self):
+    def test_04VirtualsBetPlacement(self):
         try:
             print("Loading environment variables...")
             load_dotenv()
@@ -40,13 +40,19 @@ class test_03BetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,
-                                     "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
+
+            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.virtualSports\"]").click()
+            
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]").click()
+                (By.CSS_SELECTOR, "a[data-actionable=\"Virtual.Landing.Tile.d-horse-racing\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"Virtual.Landing.Tile.d-horse-racing\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "div[data-actionable=\"Price\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "div[data-actionable=\"Price\"]").click()
+
             self.driver.find_element(By.ID, "stake-1").click()
-            self.driver.find_element(By.ID, "stake-1").send_keys("0.5")
+            self.driver.find_element(By.ID, "stake-1").send_keys("0.2")
             self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Betslip.Footer.placeBet\"]").click()
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")))

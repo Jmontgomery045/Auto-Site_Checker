@@ -10,7 +10,7 @@ def test_failure(test, error):
     print(test + ": Failure")
     print(error)
 
-class test_03BetPlacement():
+class test_04ToteBetPlacement():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -18,7 +18,7 @@ class test_03BetPlacement():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_03BetPlacement(self):
+    def test_04ToteBetPlacement(self):
         try:
             print("Loading environment variables...")
             load_dotenv()
@@ -40,18 +40,47 @@ class test_03BetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,
-                                     "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
+            
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]").click()
-            self.driver.find_element(By.ID, "stake-1").click()
-            self.driver.find_element(By.ID, "stake-1").send_keys("0.5")
-            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Betslip.Footer.placeBet\"]").click()
+                (By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.tote\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.tote\"]").click()
+
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")))
-            elements = self.driver.find_elements(By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")
-            assert len(elements) > 0
+                (By.ID,"totepool-iframe")))
+            iframe1 = self.driver.find_element(By.ID,"totepool-iframe")
+            self.driver.switch_to.frame(iframe1)
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "button[data-testid=\"race-item\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-testid=\"race-item\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "div[data-testid=\"checkbox-container\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "div[data-testid=\"checkbox-container\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]")))
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", self.driver.find_element(By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]"))
+
+
+            print("Adding Stake...")
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]")))
+            self.driver.execute_script("""
+                var betamount = document.querySelector('[data-testid="submit-button"]');
+                betamount.focus();
+            """)
+            elem = self.driver.switch_to.active_element
+            elem.send_keys('1.00')
+
+
+            print("Submitting bet...")
+            WebDriverWait(self.driver, 30).until(expected_conditions.element_to_be_clickable(
+                (By.CSS_SELECTOR, "button[data-testid=\"submit-button\"]")))
+            self.driver.find_element(By.CSS_SELECTOR, "button[data-testid=\"submit-button\"]").click()
+
+            print("End Time")
+            time.sleep(100)
             return True
         except Exception as e:
             test_failure('Bet Placement', e)

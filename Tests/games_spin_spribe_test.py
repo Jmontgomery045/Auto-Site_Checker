@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -10,7 +11,7 @@ def test_failure(test, error):
     print(test + ": Failure")
     print(error)
 
-class test_03BetPlacement():
+class test_05GamesSpinSpribe():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -18,7 +19,7 @@ class test_03BetPlacement():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_03BetPlacement(self):
+    def test_05GamesSpinSpribe(self):
         try:
             print("Loading environment variables...")
             load_dotenv()
@@ -40,18 +41,36 @@ class test_03BetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,
-                                     "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
+            
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]").click()
-            self.driver.find_element(By.ID, "stake-1").click()
-            self.driver.find_element(By.ID, "stake-1").send_keys("0.5")
-            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Betslip.Footer.placeBet\"]").click()
+                (By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.games\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.games\"]").click()
+
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")))
-            elements = self.driver.find_elements(By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")
-            assert len(elements) > 0
+                (By.CSS_SELECTOR, "div[data-actionable=\"GamesLandingPage.FavouriteGames.GameTile.aviator\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"div[data-actionable=\"GamesLandingPage.FavouriteGames.GameTile.aviator\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.ID,"game_iframe")))
+            iframe1 = self.driver.find_element(By.ID,"game_iframe")
+            self.driver.switch_to.frame(iframe1)
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.ID,"gameIFrame")))
+            iframe2 = self.driver.find_element(By.ID,"gameIFrame")
+            self.driver.switch_to.frame(iframe2)
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.ID,"spribe-game")))
+            iframe3 = self.driver.find_element(By.ID,"spribe-game")
+            self.driver.switch_to.frame(iframe3)
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR,"button.btn.btn-success.bet.ng-star-inserted")))
+            button = self.driver.find_element(By.CSS_SELECTOR,"button.btn.btn-success.bet.ng-star-inserted")
+            button.click()
+            time.sleep(5)
+
             return True
         except Exception as e:
             test_failure('Bet Placement', e)
