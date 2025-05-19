@@ -46,9 +46,7 @@ class test_05GamesSpinSpribe():
                 (By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.games\"]")))
             self.driver.find_element(By.CSS_SELECTOR,"a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.games\"]").click()
 
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "div[data-actionable=\"GamesLandingPage.FavouriteGames.GameTile.aviator\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,"div[data-actionable=\"GamesLandingPage.FavouriteGames.GameTile.aviator\"]").click()
+            self.driver.get("https://www.betfred.com/games/play/aviator")
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.ID,"game_iframe")))
