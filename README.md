@@ -20,7 +20,7 @@ or: <code>python main.py</code>
 
 # Functionality:
 
-Currently the Auto-Site-Checker runs 3 tests.
+Currently the Auto-Site-Checker runs the following tests.
 
 1. Login - This check is simple. the system logs into the website using the information given in the env file, and confirms that it is logged in.
 2. Deposit - In this check, the system logs into the website. before following the process to make a deposit. Although it cannot actually make a deposit, the system will confirm that the iFrame opens correctly.
