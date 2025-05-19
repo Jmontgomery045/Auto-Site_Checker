@@ -13,7 +13,8 @@ Install the requirements:<br>
 Finally edit the `.env` file to include your Test Users login and password.
 
 To run the application once installed:<br>
-<code>python main.py</code>
+Run the application called 'Start-Auto-Site-Checker' via double click.
+or: <code>python main.py</code>
 
 ----
 
