@@ -10,7 +10,7 @@ def test_failure(test, error):
     print(test + ": Failure")
     print(error)
 
-class test_04ToteBetPlacement():
+class test_04TransactionHistory():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -18,7 +18,7 @@ class test_04ToteBetPlacement():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_04ToteBetPlacement(self):
+    def test_04TransactionHistory(self):
         try:
             print("Loading environment variables...")
             load_dotenv()
@@ -32,7 +32,7 @@ class test_04ToteBetPlacement():
             self.driver.find_element(By.ID, "Login.password").send_keys(os.getenv("PASS"))
             self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Login.login\"]").click()
 
-            time.sleep(2)
+            time.sleep(1)
             elements = self.driver.find_elements(By.CSS_SELECTOR,"div[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]")
             if len(elements) > 0:
                 self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]").click()
@@ -40,49 +40,23 @@ class test_04ToteBetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.MenuItem.TransactionHistory\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"div[data-actionable=\"MyAccount.MenuItem.TransactionHistory\"]").click()
+
+            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.MenuItem.period_last_30_days\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"div[data-actionable=\"MyAccount.MenuItem.period_last_30_days\"]").click()
             
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.tote\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.tote\"]").click()
+                (By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.TransactionResultsItem.toggleTransaction\"]")))
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.TransactionResultsItem.toggleTransaction\"]")
 
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.ID,"totepool-iframe")))
-            iframe1 = self.driver.find_element(By.ID,"totepool-iframe")
-            self.driver.switch_to.frame(iframe1)
-
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "button[data-testid=\"race-item\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "button[data-testid=\"race-item\"]").click()
-
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "div[data-testid=\"checkbox-container\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "div[data-testid=\"checkbox-container\"]").click()
-
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]")))
-            self.driver.execute_script("arguments[0].scrollIntoView(true);", self.driver.find_element(By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]"))
-
-
-            print("Adding Stake...")
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "input[data-actionable=\"StakeInput\"]")))
-            self.driver.execute_script("""
-                var betamount = document.querySelector('[data-testid="submit-button"]');
-                betamount.focus();
-            """)
-            elem = self.driver.switch_to.active_element
-            elem.send_keys('1.00')
-
-
-            print("Submitting bet...")
-            WebDriverWait(self.driver, 30).until(expected_conditions.element_to_be_clickable(
-                (By.CSS_SELECTOR, "button[data-testid=\"submit-button\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "button[data-testid=\"submit-button\"]").click()
-
-            print("End Time")
-            time.sleep(100)
+            assert len(elements) > 0
             return True
         except Exception as e:
-            test_failure('Tote', e)
+            test_failure('Transaction History', e)
             return False
 

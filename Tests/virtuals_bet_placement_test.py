@@ -60,6 +60,6 @@ class test_04VirtualsBetPlacement():
             assert len(elements) > 0
             return True
         except Exception as e:
-            test_failure('Bet Placement', e)
+            test_failure('Virtuals', e)
             return False
 

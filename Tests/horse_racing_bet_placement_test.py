@@ -69,6 +69,6 @@ class test_04HorseRacingBetPlacement():
             assert len(elements) > 0
             return True
         except Exception as e:
-            test_failure('Bet Placement', e)
+            test_failure('Horse', e)
             return False
 

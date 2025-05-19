@@ -10,7 +10,7 @@ def test_failure(test, error):
     print(test + ": Failure")
     print(error)
 
-class test_04InPlayBetPlacement():
+class test_04BetHistory():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -18,7 +18,7 @@ class test_04InPlayBetPlacement():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_04InPlayBetPlacement(self):
+    def test_04BetHistory(self):
         try:
             print("Loading environment variables...")
             load_dotenv()
@@ -32,7 +32,7 @@ class test_04InPlayBetPlacement():
             self.driver.find_element(By.ID, "Login.password").send_keys(os.getenv("PASS"))
             self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Login.login\"]").click()
 
-            time.sleep(2)
+            time.sleep(20)
             elements = self.driver.find_elements(By.CSS_SELECTOR,"div[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]")
             if len(elements) > 0:
                 self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"PromptToUpdate.MarketingPreferencesSplitByProduct.Button.OptInToAll.Button\"]").click()
@@ -40,23 +40,18 @@ class test_04InPlayBetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,
-                                     "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
+            self.driver.find_element(By.CSS_SELECTOR,"button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]").click()
+
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.inPlay\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.inPlay\"]").click()
+                (By.CSS_SELECTOR, "div[data-actionable=\"MyAccount.MenuItem.BetHistory\"]")))
+            self.driver.find_element(By.CSS_SELECTOR,"div[data-actionable=\"MyAccount.MenuItem.BetHistory\"]").click()
+
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "div[data-actionable=\"Price\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "div[data-actionable=\"Price\"]").click()
-            self.driver.find_element(By.ID, "stake-1").click()
-            self.driver.find_element(By.ID, "stake-1").send_keys("0.2")
-            self.driver.find_element(By.CSS_SELECTOR, "button[data-actionable=\"Betslip.Footer.placeBet\"]").click()
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")))
-            elements = self.driver.find_elements(By.CSS_SELECTOR, "span[data-actionable=\"BetConfirmation.success\"]")
+                (By.CSS_SELECTOR, "div[data-actionable=\"BetHistory.OpenBet\"]")))
+            elements = self.driver.find_elements(By.CSS_SELECTOR, "div[data-actionable=\"BetHistory.OpenBet\"]")
             assert len(elements) > 0
             return True
         except Exception as e:
-            test_failure('In Play', e)
+            test_failure('Bet History', e)
             return False
 

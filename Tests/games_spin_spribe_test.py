@@ -73,6 +73,6 @@ class test_05GamesSpinSpribe():
 
             return True
         except Exception as e:
-            test_failure('Bet Placement', e)
+            test_failure('Games Spin', e)
             return False
 
