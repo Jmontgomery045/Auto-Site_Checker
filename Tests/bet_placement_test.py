@@ -40,8 +40,7 @@ class test_03BetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            self.driver.find_element(By.CSS_SELECTOR,
-                                     "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
+            self.driver.get("https://www.betfred.com/sports/football")
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]")))
             self.driver.find_element(By.CSS_SELECTOR, "span[data-actionable=\"Price.name\"]").click()

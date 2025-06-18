@@ -40,10 +40,6 @@ class test_04LottoBetPlacement():
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "button[data-actionable=\"Header.LoggedIn.buttonMyAccount\"]")))
-            
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.lotto\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.lotto\"]").click()
 
             # Navigate to specific url
             self.driver.get("https://www.betfred.com/lotto/nifty-50")
