@@ -51,7 +51,8 @@ class test_04HorseRacingBetPlacement():
                 (By.CSS_SELECTOR, "a[data-actionable=\"RaceGrid.eventLink\"]")))
             events = self.driver.find_elements(By.CSS_SELECTOR, "a[data-actionable=\"RaceGrid.eventLink\"]")
             if len(events) > 2:
-                events[2].click()
+                # click the final event
+                events[-1].click()
             else:
                 print("Not enough events found.")
                 return False
