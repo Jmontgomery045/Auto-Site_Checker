@@ -43,9 +43,7 @@ class test_04HorseRacingBetPlacement():
             self.driver.find_element(By.CSS_SELECTOR,
                                      "a[data-actionable=\"core.navigation.ProductSwitcher.ProductLink.link.sports\"]").click()
             
-            WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.horseRacing\"]")))
-            self.driver.find_element(By.CSS_SELECTOR, "a[data-actionable=\"Sportsbook.HomePage.SportsCarousel.horseRacing\"]").click()
+            self.driver.get("https://www.betfred.com/sports/horse-racing")
 
             WebDriverWait(self.driver, 30).until(expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR, "a[data-actionable=\"RaceGrid.eventLink\"]")))

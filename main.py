@@ -243,7 +243,7 @@ def core():
     batch_size_label.pack(padx=20, pady=5)
     batch_size_entry = tk.Entry(window)
     batch_size_entry.pack(padx=20, pady=5)
-    batch_size_entry.insert(0, "4")  # Default value
+    batch_size_entry.insert(0, "1")  # Default value
 
     run_button = tk.Button(window, text="Run", command=run_tests, width=20, height=2)
     run_button.pack(padx=20, pady=20)
